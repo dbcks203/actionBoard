@@ -5,17 +5,9 @@
 <head>
 <meta charset="UTF-8">
 
-
+<link rel="stylesheet" href="/WebSocketChatting/css/style_boardList.css">
 <link rel="stylesheet" href="/WebSocketChatting/css/style.css">
 <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
-<style>
-ul {
-    text-align: center;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-right: 0;
-}
-</style>
 <title>Youzan's Project</title>
 
 
@@ -41,7 +33,7 @@ ul {
 		<option value="20">20개씩보기</option>
 	</select>
 
-	<table id=dataTableBody>
+	<table>
 		<thead>
 			<tr>
 				<th>번호</th>
@@ -51,12 +43,14 @@ ul {
 				<th>조회수</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id=dataTableBody>
 		</tbody>
 	</table>
 
 	<ul id="pagingul">
 	</ul>
+	<button type="button" class="btn btn-primary"
+				onclick="location.href='/WebSocketChatting/jsp/board/articleWrite.jsp';">글쓰기</button>
 
 </body>
 <script type="text/javascript">
@@ -89,7 +83,7 @@ ul {
 		let pageHtml = "";
 		if(currentPageNo!=1){
 			pageHtml += "<li><a href='javascript:movePage(1)'> &lt;&lt; </a></li>";
-			pageHtml += "<li><a href='javascript:movePage("+(--currentPageNo)+")'> &lt; </a></li>";
+			pageHtml += "<li><a href='javascript:movePage("+(currentPageNo-1)+")'> &lt; </a></li>";
 		}
 		for (var i = startPageNo; i <= endPageNo; i++) {
 			if (currentPageNo == i)
@@ -99,7 +93,7 @@ ul {
 		}
 
 		if(currentPageNo != totalPageNo){
-			pageHtml += "<li><a href='javascript:movePage("+(++currentPageNo)+")'> &gt; </a></li>";
+			pageHtml += "<li><a href='javascript:movePage("+(currentPageNo+1)+")'> &gt; </a></li>";
 			pageHtml += "<li><a href='javascript:movePage("+totalPageNo+")'> &gt;&gt; </a></li>";
 		}
 
@@ -107,7 +101,7 @@ ul {
 		articleList.forEach(function(article) {
 			chartHtml += "<tr>";
 			chartHtml += "<td>" + article.seq + "</td>";
-			chartHtml += "<td>" + article.subject + "</td>";
+			chartHtml += "<td><a href=articleview.zan?seq="+article.seq+">" + article.subject + "</td>";
 			chartHtml += "<td>" + article.userid + "</td>";
 			chartHtml += "<td>" + article.regdate + "</td>";
 			chartHtml += "<td>" + article.readcount + "</td>";
