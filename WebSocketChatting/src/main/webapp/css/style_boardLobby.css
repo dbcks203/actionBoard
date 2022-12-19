@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+
+	.searchbox .form-control {
+		display: inline-block;
+		width: auto;
+	}
+	
+	.searchbox #search {
+		width: 250px;
+	}
+	
+	.searchBar {
+		margin: 10px;
+		text-align: center;
+	}
+	
+	.pagebar { text-align: center; }
+	
+	
+	.table-wrapper{
+	height:700px;
+	}
