@@ -1,128 +1,141 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/WebSocketChatting/css/style_boardList.css">
-<link rel="stylesheet"
-	href="/WebSocketChatting/css/style_boardLobby.css">
-<link rel="stylesheet" href="/WebSocketChatting/css/style.css">
 
+
+<link rel="stylesheet" href="/WebSocketChatting/css/style.css">
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+<style>
+ul {
+    text-align: center;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-right: 0;
+}
+</style>
 <title>Youzan's Project</title>
+
+
 <jsp:include page="/html/loginned_header.html" />
+
 </head>
 <body>
 	<h2>Message Board</h2>
 	<h3>List</h3>
-	
-	<div class="table-wrapper">
-	<form method="post" name="searchForm" action="<c:url value='articlelist.zan'/>">
-		<input type="hidden" name="pageNo" id="pageNo" value="${currentPageNo}"/>
+
+	<form name="searchForm">
 		<table>
 			<tr>
 				<td>검색어</td>
-				<td><input type="text" placeholder="제목,내용,작성자를 입력" name="text" value="${param.text}"
-					maxlength="130"></td>
+				<td><input type="text" placeholder="제목,내용,작성자를 입력" id="text" name="text" value="${param.text}" maxlength="130"></td>
 				<td><input type="button" value="검색" onclick="jsSearch()">
 			</tr>
-		</table>		
-	</form>
-	
-		<table>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>날짜</th>
-					<th>읽음</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="boardDTO" items="${articleList}"
-					varStatus="listArticleStatus">
-					<tr>
-						<td>${boardDTO.seq}</td>
-						<td><a href="articleview.zan?seq=${boardDTO.seq}"> <c:choose>
-									<c:when test="${boardDTO.seq == boardDTO.parentNo}">${boardDTO.subject}</c:when>
-									<c:otherwise>&nbsp;[답변] ${boardDTO.subject}
-									</c:otherwise>
-								</c:choose>
-						</a></td>
-						<td>${boardDTO.userid}</td>
-						<td>${boardDTO.regdate }</td>
-						<td>${boardDTO.readcount }</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-			<tfoot>
-				<tr></tr>
-			</tfoot>
 		</table>
+	</form>
+	<select id="dataPerPage">
+		<option value="10">10개씩보기</option>
+		<option value="15">15개씩보기</option>
+		<option value="20">20개씩보기</option>
+	</select>
 
-		<c:if test="${currentPageNo != 1}">
-			<a href="javascript:movePage(1)"> &lt;&lt; </a>
-		&nbsp;
-		<a href="javascript:movePage(${currentPageNo-1})"> &lt; </a>
-		&nbsp;
-	</c:if>
-		<c:forEach var="pageNo" begin="${startPageNo}" end="${endPageNo}">
-			<c:choose>
-				<c:when test="${currentPageNo == pageNo}">
-					<span style="font-size: 1.3rem;">${pageNo}</span>
-				</c:when>
-				<c:otherwise>
-					<a href="javascript:movePage(${pageNo})">${pageNo}</a>
-				</c:otherwise>
-			</c:choose>
-		&nbsp;
-	</c:forEach>
-		<c:if test="${currentPageNo != totalPageNo}">
-			<a href="javascript:movePage(${currentPageNo+1})"> &gt; </a>
-		&nbsp;
-		<a href="javascript:movePage(${totalPageNo})"> &gt;&gt; </a>
-		</c:if>
+	<table id=dataTableBody>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>날짜</th>
+				<th>조회수</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
 
-		<div class="btns">
+	<ul id="pagingul">
+	</ul>
 
-			<button type="button" class="btn btn-primary"
-				onclick="location.href='/WebSocketChatting/jsp/board/articleWrite.jsp';">글쓰기</button>
-
-		</div>
-
-
-	</div>
 </body>
 <script type="text/javascript">
+	let currentPageNo = 1;
+	let totalPageNo;
+	let pageSize;
+	let startPageNo;
+	let endPageNo;
+	let search;
+	pageSize = $("#dataPerPage").val();
+	loadList();
 
-let boardForm = document.querySelector("#boardForm");
-boardForm.addEventListener("submit", (e) => {
-	e.preventDefault();
-	
-	fetch('reply.zan', {		
-		method : 'POST',
-	    cache: 'no-cache',
-		body: new FormData(boardForm)		
-	})
-	.then(response => response.json())
-	.then(jsonResult => {
-		alert(jsonResult.message);
-		if (jsonResult.status == true) {
-			location.href = jsonResult.url;
-		}
+	$("#dataPerPage").change(function() {
+		pageSize = $("#dataPerPage").val();
+		loadList();
 	});
-});
 
 	function movePage(pageNo) {
-		document.querySelector("#pageNo").value = pageNo;
-		searchForm.submit();
+		currentPageNo = pageNo;
+		loadList();
+	}
+	
+	function jsSearch() {
+		search = document.querySelector("#text").value;
+		currentPageNo = 1;
+		loadList();
+	}
+	
+	function displayData() {
+		let pageHtml = "";
+		if(currentPageNo!=1){
+			pageHtml += "<li><a href='javascript:movePage(1)'> &lt;&lt; </a></li>";
+			pageHtml += "<li><a href='javascript:movePage("+(--currentPageNo)+")'> &lt; </a></li>";
+		}
+		for (var i = startPageNo; i <= endPageNo; i++) {
+			if (currentPageNo == i)
+				pageHtml += "<li class='on'><a href=javascript:movePage("+i+")>"+i+"</a></li>";
+			else
+				pageHtml += "<li><a href=javascript:movePage("+i+")>"+i+"</a></li>";
+		}
+
+		if(currentPageNo != totalPageNo){
+			pageHtml += "<li><a href='javascript:movePage("+(++currentPageNo)+")'> &gt; </a></li>";
+			pageHtml += "<li><a href='javascript:movePage("+totalPageNo+")'> &gt;&gt; </a></li>";
+		}
+
+		let chartHtml = "";
+		articleList.forEach(function(article) {
+			chartHtml += "<tr>";
+			chartHtml += "<td>" + article.seq + "</td>";
+			chartHtml += "<td>" + article.subject + "</td>";
+			chartHtml += "<td>" + article.userid + "</td>";
+			chartHtml += "<td>" + article.regdate + "</td>";
+			chartHtml += "<td>" + article.readcount + "</td>";
+			chartHtml += "</tr>";
+		});
+		$("#dataTableBody").html(chartHtml);
+		$("#pagingul").html(pageHtml);
 	}
 
-	function jsSearch() {
-		document.querySelector("#pageNo").value = 1;
-		searchForm.submit();
+	function loadList() {
+		$.ajax({
+			method : "GET",
+			url : "articlelist.zan",
+			data : {
+				"text" : search,
+				"pageSize" : pageSize,
+				"pageNo" : currentPageNo
+			},
+			dataType : "json",
+			success : function(json) {
+				console.log("currentPage : " + currentPageNo);
+				totalPageNo = json.totalPageNo;
+				startPageNo = json.startPageNo;
+				endPageNo = json.endPageNo;
+				articleList = json.articleList;
+				displayData();
+			}
+		});
 	}
 </script>
 <jsp:include page="/html/footer.html" />

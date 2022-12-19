@@ -68,16 +68,18 @@ public class BoardCommand{
 	
 	
 	
-	public String articleList(HttpServletRequest request, HttpServletResponse response)
+	public JSONObject articleList(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		String text = request.getParameter("text");
 		String pageNoStr = request.getParameter("pageNo");
+		System.out.println(pageNoStr);
 		BoardDAO boardDAO = new BoardDAO();
 		if ("".equals(pageNoStr) || null == pageNoStr) 
 			pageNoStr = "1";
 		int pageNo = Integer.parseInt(pageNoStr);
-		/*
+		
+		
 		int pageSize = 10;
 		int totalPageNo = boardDAO.totalPageNo(text);
 		int startPageNo = ((pageNo - 1) / pageSize) * pageSize + 1;
@@ -86,19 +88,28 @@ public class BoardCommand{
 		
 		if (endPageNo > totalPageNo) 
 			endPageNo = totalPageNo;
-		*/
-		Paging pc = new Paging(pageNo,boardDAO.totalPageNo(text)); 
-		List<BoardDTO> list = boardDAO.listArticles(text, pageNo);
-		request.setAttribute("articleList", list);
-		/*
-		request.setAttribute("totalPageNo", totalPageNo);
-		request.setAttribute("startPageNo", startPageNo);
-		request.setAttribute("endPageNo", endPageNo) ;
-		request.setAttribute("currentPageNo", pageNo) ;
-		*/
-		request.setAttribute("Paging", pc);
 		
-		return "/jsp/board/boardLobby.jsp";
+		//Paging pc = new Paging(pageNo,boardDAO.totalPageNo(text));
+		
+		List<BoardDTO> list = boardDAO.listArticles(text, pageNo);
+		
+		//request.setAttribute("articleList", list);
+		//request.setAttribute("totalPageNo", totalPageNo);
+		//request.setAttribute("startPageNo", startPageNo);
+		//request.setAttribute("endPageNo", endPageNo) ;
+		//request.setAttribute("currentPageNo", pageNo) ;
+		//request.setAttribute("Paging", pc);
+		
+		JSONObject jsonResult = new JSONObject();
+		jsonResult.put("status", true);
+		jsonResult.put("articleList", list);
+		jsonResult.put("totalPageNo",totalPageNo);
+		jsonResult.put("startPageNo", startPageNo);
+		jsonResult.put("endPageNo", endPageNo);
+		jsonResult.put("currentPageNo", pageNo);
+		jsonResult.put("url", "/WebSocketChatting/jsp/board/articleList.jsp");
+		return jsonResult;
+		
 	}
 	
 	
