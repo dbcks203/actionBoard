@@ -38,6 +38,9 @@
 			writeForm.zan:command.BoardCommand:writeForm
 			replyForm.zan:command.BoardCommand:replyForm
 			reply.zan:command.BoardCommand:reply
+			articlelistaccess.zan:command.BoardCommand:articleListAccess
+			memberlist.zan:command.MemberCommand:memberList
+			memberlistaccess.zan:command.MemberCommand:memberListAccess
   		</param-value>
   	</init-param>
   </servlet>

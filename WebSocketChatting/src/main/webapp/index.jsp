@@ -98,7 +98,7 @@ document.getElementById("icon1").onclick= () => {
 }
 
 document.getElementById("icon2").onclick= () => {
-	document.location="articlelist.zan"
+	document.location="articlelistaccess.zan"
 }
 
 document.getElementById("icon3").onclick= () => {

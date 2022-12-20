@@ -6,7 +6,7 @@ public interface BoardDAOInterface {
 	
 	public int articleInsert(BoardDTO dto);
 
-	public List<BoardDTO> listArticles(String text, int pageNo); 
+	public List<BoardDTO> listArticles(String text, int pageNo, int pageSize); 
 	
 	public BoardDTO getBoardDTO(String seq); 
 

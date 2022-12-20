@@ -13,6 +13,7 @@ public class MemberBean {
 	private String phone;
 	private String sex;
 	private String joinDate;
+	private String available;
 	
 	
 	public String getId() {
@@ -82,7 +83,7 @@ public class MemberBean {
 		this.phone = phone;
 	}
 
-	public MemberBean(String id, String pwd, String name,String sex, String email, String address,String phone) {
+	public MemberBean(String id, String pwd, String name,String sex, String email, String address,String phone, String joinDate, String available) {
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
@@ -90,7 +91,8 @@ public class MemberBean {
 		this.email = email;
 		this.address = address;
 		this.phone = phone;
-		this.joinDate= null;
+		this.joinDate= joinDate;
+		this.available=available;
 	}
 	
 	public MemberBean() {

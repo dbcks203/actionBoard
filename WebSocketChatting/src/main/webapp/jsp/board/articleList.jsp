@@ -31,6 +31,8 @@
 		<option value="10">10개씩보기</option>
 		<option value="15">15개씩보기</option>
 		<option value="20">20개씩보기</option>
+		<option value="25">25개씩보기</option>
+		<option value="30">30개씩보기</option>
 	</select>
 
 	<table>
@@ -56,15 +58,16 @@
 <script type="text/javascript">
 	let currentPageNo = 1;
 	let totalPageNo;
-	let pageSize;
+	let listSize;
 	let startPageNo;
 	let endPageNo;
 	let search;
-	pageSize = $("#dataPerPage").val();
+	listSize = $("#dataPerPage").val();
 	loadList();
 
 	$("#dataPerPage").change(function() {
-		pageSize = $("#dataPerPage").val();
+		listSize = $("#dataPerPage").val();
+		currentPageNo = 1;
 		loadList();
 	});
 
@@ -101,7 +104,10 @@
 		articleList.forEach(function(article) {
 			chartHtml += "<tr>";
 			chartHtml += "<td>" + article.seq + "</td>";
-			chartHtml += "<td><a href=articleview.zan?seq="+article.seq+">" + article.subject + "</td>";
+			if(article.seq==article.parentNo)
+				chartHtml += "<td><a href=articleview.zan?seq="+article.seq+">" + article.subject + "</td>";
+			else
+				chartHtml += "<td><a href=articleview.zan?seq="+article.seq+">/t[답변] " + article.subject + "</td>";
 			chartHtml += "<td>" + article.userid + "</td>";
 			chartHtml += "<td>" + article.regdate + "</td>";
 			chartHtml += "<td>" + article.readcount + "</td>";
@@ -117,7 +123,7 @@
 			url : "articlelist.zan",
 			data : {
 				"text" : search,
-				"pageSize" : pageSize,
+				"listSize" : listSize,
 				"pageNo" : currentPageNo
 			},
 			dataType : "json",

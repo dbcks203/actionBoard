@@ -94,9 +94,9 @@ public class BoardDAO implements BoardDAOInterface {
 			return (int) number;
 	}
 	
-	public int totalPageNo(String text) {
+	public int totalPageNo(String text, int pageSize) {
 		int totalPageSize = 0; 
-		final int rowSize = 10; 
+		int rowSize = pageSize; 
 		if(text==null)
 			text="";
 		try {
@@ -123,13 +123,13 @@ public class BoardDAO implements BoardDAOInterface {
 
 	}
 	
-	public List<BoardDTO> listArticles(String text, int pageNo) {
+	public List<BoardDTO> listArticles(String text, int pageNo, int pageSize) {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
-		final int rowSize= 10;
+		final int rowSize= pageSize;
 		try {
 			conn = dataFactory.getConnection();
 			text = text == null ? "" : text;
-			String query = "select * from tblboards where subject like concat('%', ?, '%') or content like concat('%', ?, '%')or userid like concat('%', ?, '%') ORDER BY parentNo, `seq` limit ?, ?";
+			String query = "select * from tblboards where  like concat('%', ?, '%') or content like concat('%', ?, '%')or userid like concat('%', ?, '%') ORDER BY parentNo, `seq` limit ?, ?";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, text);

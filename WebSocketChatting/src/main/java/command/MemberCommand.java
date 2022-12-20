@@ -2,6 +2,14 @@ package command;
 
 
 import java.sql.SQLException;
+import java.util.List;
+
+import org.json.JSONObject;
+
+import board.BoardDAO;
+import board.BoardDTO;
+import control.Paging;
+import control.PagingService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -41,7 +49,7 @@ public class MemberCommand{
 				request.getParameter("sex"),
 				request.getParameter("email"),
 				request.getParameter("address"), 
-				request.getParameter("phone")
+				request.getParameter("phone"),null,null
 				);
 		memberDAO.insertMember(memberBean);
 		memberDAO.close();
@@ -136,10 +144,39 @@ public class MemberCommand{
 				null,
 				request.getParameter("email"),
 				request.getParameter("address"), 
-				request.getParameter("phone")
+				request.getParameter("phone"),null,null
 				);
 		memberDAO.memberUpdate(memberBean);
 		memberDAO.close();
 		return "mypage.zan";
+	}
+	
+	public String memberListAccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		return "/jsp/admin/adminMain.jsp";
+	}
+	
+	public JSONObject memberList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String text = request.getParameter("text");
+		String pageNoStr = request.getParameter("pageNo");
+		String listSizeStr = request.getParameter("listSize");
+		
+		BoardDAO boardDAO = new BoardDAO();
+		if ("".equals(pageNoStr) || null == pageNoStr) 
+			pageNoStr = "1";
+		
+		int pageNo = Integer.parseInt(pageNoStr);		
+		int pageSize = 10;
+		int listSize = Integer.parseInt(listSizeStr);
+		Paging page = new Paging(pageNo,pageSize,listSize,boardDAO.totalPageNo(text,listSize));
+		List<MemberBean> list = memberDAO.listMembers(text, pageNo, listSize);
+		
+		JSONObject jsonResult = new JSONObject();
+		jsonResult.put("status", true);
+		jsonResult.put("membersList", list);
+		jsonResult.put("pageHtml",PagingService.retPageService(page));
+		jsonResult.put("url", "/WebSocketChatting/jsp/admin/adminMain.jsp");
+		return jsonResult;
+		
+		
 	}
 }

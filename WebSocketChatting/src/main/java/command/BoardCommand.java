@@ -73,32 +73,27 @@ public class BoardCommand{
 		// TODO Auto-generated method stub
 		String text = request.getParameter("text");
 		String pageNoStr = request.getParameter("pageNo");
+		String listSizeStr = request.getParameter("listSize");
 		System.out.println(pageNoStr);
 		BoardDAO boardDAO = new BoardDAO();
 		if ("".equals(pageNoStr) || null == pageNoStr) 
 			pageNoStr = "1";
 		int pageNo = Integer.parseInt(pageNoStr);
 		
-		
 		int pageSize = 10;
-		int totalPageNo = boardDAO.totalPageNo(text);
+		int listSize = Integer.parseInt(listSizeStr);
+		int totalPageNo = boardDAO.totalPageNo(text,listSize);
 		int startPageNo = ((pageNo - 1) / pageSize) * pageSize + 1;
 		int endPageNo = startPageNo + pageSize - 1;
 		
 		
 		if (endPageNo > totalPageNo) 
 			endPageNo = totalPageNo;
+
 		
-		//Paging pc = new Paging(pageNo,boardDAO.totalPageNo(text));
+		List<BoardDTO> list = boardDAO.listArticles(text, pageNo, listSize);
 		
-		List<BoardDTO> list = boardDAO.listArticles(text, pageNo);
-		
-		//request.setAttribute("articleList", list);
-		//request.setAttribute("totalPageNo", totalPageNo);
-		//request.setAttribute("startPageNo", startPageNo);
-		//request.setAttribute("endPageNo", endPageNo) ;
-		//request.setAttribute("currentPageNo", pageNo) ;
-		//request.setAttribute("Paging", pc);
+
 		
 		JSONObject jsonResult = new JSONObject();
 		jsonResult.put("status", true);
@@ -170,7 +165,7 @@ public class BoardCommand{
 
 			jsonResult.put("status", true);
 			jsonResult.put("message", "글쓰기를 성공했습니다.");
-			jsonResult.put("url", "/WebSocketChatting/jsp/board/boardLobby.jsp");
+			jsonResult.put("url", "articlelistaccess.zan");
 			return jsonResult;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -242,5 +237,9 @@ public class BoardCommand{
 	
 	public String writeForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		return "/jsp/board/writeForm.jsp";
+	}
+	
+	public String articleListAccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		return "/jsp/board/articleList.jsp";
 	}
 }

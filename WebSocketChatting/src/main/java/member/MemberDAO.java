@@ -34,22 +34,33 @@ public class MemberDAO implements MemberDAOInterface{
 		return instance;
 	}
 	
-	public List<MemberBean> listMembers() {
+	public List<MemberBean> listMembers(String text, int pageNo,int pageSize) {
 		List<MemberBean> list = new ArrayList<>();
 		try {
 			// connDB();
+			final int rowSize= pageSize;
+			text = text == null ? "" : text;
 			conn = dataFactory.getConnection();
-			String query = "select * from t_member ";
+			String query = "select * from member where useridlike concat('%', ?, '%') or name like concat('%', ?, '%')or address like concat('%', ?, '%') ORDER BY `createdate` limit ?, ?";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, text);
+			pstmt.setString(2, text);
+			pstmt.setString(3, text);
+			pstmt.setInt(4, (pageNo-1) * rowSize);
+			pstmt.setInt(5, rowSize);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				MemberBean member = new MemberBean(
-
-						rs.getString("userid"), rs.getString("pwd"), rs.getString("name"), rs.getString("sex"),
-						rs.getString("email"), rs.getString("address"), rs.getString("phone"));
-
-				System.out.println(member);
+						rs.getString("userid"), 
+						rs.getString("pwd"), 
+						rs.getString("name"), 
+						rs.getString("sex"),
+						rs.getString("email"), 
+						rs.getString("address"), 
+						rs.getString("phone"),
+						rs.getString("createDate"),
+						rs.getString("available"));
 				list.add(member);
 			}
 			rs.close();

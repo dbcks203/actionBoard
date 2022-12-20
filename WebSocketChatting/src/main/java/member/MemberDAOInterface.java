@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface MemberDAOInterface {
 
-	public List<MemberBean> listMembers();
+	public List<MemberBean> listMembers(String text, int pageNo,int listSize);
 	
 	public int memberUpdate(MemberBean member) ;
 	
