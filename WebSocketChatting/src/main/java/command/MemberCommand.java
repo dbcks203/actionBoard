@@ -188,7 +188,7 @@ public class MemberCommand{
 		BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
 		String jsonStr = in.readLine();
 		System.out.println("jsonStr = " + jsonStr);
-
+		System.out.println(request.getRequestURI());
 		JSONObject jsonMember = new JSONObject(jsonStr);
 		String uid = jsonMember.getString("uid");
 		MemberDAO memberDAO = new MemberDAO();

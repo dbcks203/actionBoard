@@ -113,7 +113,7 @@
 	    	$.ajax({
 				type:"post"
 				,async: true
-				,url : "<c:url value='/member/admindelete.zan'/>"
+				,url : "<c:url value='/admindelete.zan'/>"
 				,data : JSON.stringify(param)	
 				,dataType : "JSON"
 				,contentType:"application/json;charset=utf-8"
