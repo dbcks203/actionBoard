@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<link href="/pro/css/signUp.css" rel="stylesheet" />
+
+</head>
+
+<body>
+<form name = "joinMember" action ="join">
+	<div class="holder">
+		<div class="loc">
+			<a href="index.html" class="home">HOME</a>
+		</div>
+	</div>
+	<h2 class="tit-join"> 회원가입	</h2>
+	
+	<div class="info-enter">
+			<div class="inner">
+		<h3><img alt="정보입력" src="https://pics.auction.co.kr/join/h3_tit_info_enter02.gif"></h3>
+		<div class="info">
+			<ul>
+				<li class="enteruid_area"><input name="uid" type="text" id="uid" class="enter_uid"
+					placeholder="아이디" maxlength="12" style="width: 427px;" title="아이디">				
+					</li></br>
+		
+				<li class="enterpwd_area"><input name="pwd" type="password" id="pwd" class="enter_pwd"
+					maxlength="15" style="width: 427px;" placeholder="비밀번호" /></li></br>
+					
+				<li class="entername_area"><input name="name" type="text" id="name" class="enter_name"
+					style="width: 427px;" maxlength="12" title="이름" placeholder="이름" /></li></br>
+				
+				<li class="entersex_area"><input name="sex" type="text" id="sex" class="enter_sex"
+					style="width: 427px;" maxlength="12" title="성별" placeholder="성별" /></li></br>
+				
+				<li class="enteraddress_area"><input name="address" type="text" id="address" class="enter_address"
+					style="width: 427px;" maxlength="12" title="주소" placeholder="주소" /></li></br>
+				
+				<li class="enterphone_area"><input name="phone" type="number" class="enter_phone"
+					id="phone" maxlength="15" style="width: 427px;"
+					placeholder="핸드폰 번호" /></li></br>
+					
+				<li class="enteremail_area"><input name="email" type="text" class="enter_email"
+					id="email" maxlength="15" style="width: 427px;"
+					placeholder="이메일" /></li></br>		
+			</ul>
+		</div>
+	</div>		
+			<div class="terms-agree">
+					<div class="inner">          
+            <h3><img src="https://pics.auction.co.kr/join/h3_tit_terms_agree02.gif" alt="약관동의"></h3>
+						<div class="terms-cont">
+							<div class="all-agree">
+								<input type="checkbox" id="cb_agreeall_1">전체 동의
+							</div>
+							<div class="terms-cont-inner">
+								<div class="check-set">
+									<input type="checkbox" id="cbProvision1" name="cbProvision1">옥션 이용약관 <span class="text__importance">(필수)</span><a target="_blank" class="txt-view-all">전체보기</a>
+								</div>
+
+								<div class="check-set">
+									<input type="checkbox" id="cbFinance" name="cbFinance">전자금융거래 이용약관 <span class="text__importance">(필수)</span><a target="_blank" class="txt-view-all">전체보기</a>
+								</div>
+
+								<div class="check-set">
+									<input name="cbIndividualInfo" type="checkbox" id="cbIndividualInfo">개인정보 수집 및 이용 <span class="text__importance">(필수)</span><a target="_blank" class="txt-view-all">내용보기</a>
+								</div>
+
+								<div class="check-set">
+									<input name="cbThirdParty" type="checkbox" id="cbThirdParty" >개인정보 제3자(판매자) 제공 <span class="text__importance">(선택)</span><a target="_blank" class="txt-view-all">내용보기</a>
+								</div>
+								<div class="check-set">
+									<input name="cbIndividualInfo_option" type="checkbox" id="cbIndividualInfo_option" >개인정보 수집 및 이용 <span class="text__importance">(선택)</span><a target="_blank" class="txt-view-all">내용보기</a>
+								</div>
+								<div class="check-set">
+									<input name="cbLocation" type="checkbox" id="cbLocation">위치정보 이용약관 <span class="text__importance">(선택)</span><a target="_blank" class="txt-view-all">전체보기</a>
+								</div>
+								<div class="check-set">
+									<input name="cbPushAgreeYn" type="checkbox" id="cbPushAgreeYn">혜택 알림 이메일, 문자, 앱 푸시 수신 <span class="text__importance">(선택)</span>
+								</div>
+							</div>									
+						</div>
+					</div>
+				</div>
+			<br></br>
+			<div class="box__buttons">					
+			<input type = "submit" class="button__submit" name="join" id="join" value = "가입하기">
+			<input type = "reset" class="button__cancel" name="reset" id="reset" value = "다시입력">
+			</div>
+<style>
+ul{
+   list-style:none;
+   }
+</style>
+		</div>
+	</div>
+</form>
+</body>
+</html>

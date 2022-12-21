@@ -1,0 +1,200 @@
+@charset "UTF-8";
+.tit-join {
+    height: 54px;
+    margin-top: 9px;
+    padding: 20px 0 0 20px;
+    background: url(//pics.auction.co.kr/join/bg_h2_tit.gif) repeat-x;
+    color : white;
+    font:  Gulim, '굴림';
+    font-size: 30px;
+    
+}
+info-enter {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+
+.enter_uid {
+	padding: 4px 0 7px 11px;
+    border-top: 1px solid #999;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #aaa;
+    font: 13px Malgun Gothic,Dotum;
+    color: #767676;
+
+}
+.enter_pwd{
+	padding: 4px 0 7px 11px;
+    border-top: 1px solid #999;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #aaa;
+    font: 13px Malgun Gothic,Dotum;
+    color: #767676;
+	
+}
+.enter_name{
+	padding: 4px 0 7px 11px;
+    border-top: 1px solid #999;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #aaa;
+    font: 13px Malgun Gothic,Dotum;
+    color: #767676;
+	
+}
+.enter_sex{
+	padding: 4px 0 7px 11px;
+    border-top: 1px solid #999;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #aaa;
+    font: 13px Malgun Gothic,Dotum;
+    color: #767676;
+	
+}
+.enter_address{
+	padding: 4px 0 7px 11px;
+    border-top: 1px solid #999;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #aaa;
+    font: 13px Malgun Gothic,Dotum;
+    color: #767676;
+	
+}
+
+.enter_phone{
+	padding: 4px 0 7px 11px;
+    border-top: 1px solid #999;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #aaa;
+    font: 13px Malgun Gothic,Dotum;
+    color: #767676;
+	
+}.enter_email{
+	padding: 4px 0 7px 11px;
+    border-top: 1px solid #999;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #aaa;
+    font: 13px Malgun Gothic,Dotum;
+    color: #767676;
+	
+}
+
+.button__submit {
+    font-family: 'Noto Sans Korean';
+    font-weight: bold;
+    float: left;
+    display: inline-block;
+    width: 215px;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    line-height: 48px;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    background-color: #E63740;
+    border: 1px solid #E63740;
+    box-sizing: border-box;
+}
+.button__cancel {
+    font-family: 'Noto Sans Korean';
+    font-weight: bold;
+    float: right;
+    display: inline-block;
+    width: 215px;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    line-height: 48px;
+    text-align: center;
+    font-size: 16px;
+    color: #222;
+    background-color: #ffffff;
+    border: 1px solid #d6d6d6;
+    box-sizing: border-box;
+}
+
+.box__buttons {
+    margin-top: -15px;
+    text-align: left;
+    width: 440px;
+    margin-left: 302px;
+    padding-bottom: 113px;
+    overflow: hidden;
+}
+.info {
+    float: none;
+    margin-left: 282px;
+}
+
+.inner {
+    overflow: hidden;
+    width: 100%;
+    border-bottom: 1px solid #e3e3e3;
+    
+}    
+ 
+.terms-agree .terms-cont .all-agree {
+    margin-bottom: 11px;
+}  
+.terms-cont {
+    margin: 0 0 0 282px;
+}    
+.all-agree {
+    margin-bottom: 17px;
+    padding: 0;
+} 
+.check-set {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 30px;
+}
+.all-agree {
+    margin-left: 0;
+    font: bold 17px Malgun Gothic,Dotum;
+    letter-spacing: -1px;
+}
+
+.terms-cont-inner {
+    width: 440px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border: 0;
+    border-top: 1px solid #e3e3e3;
+    font-size: 14px;
+}    
+
+a.txt-view-all {
+    font-family: 'Noto Sans Korean';
+    font-weight: 400;
+    position: absolute;
+    top: 4px;
+    right: 0;
+    padding-left: 10px;
+    font-size: 11px;
+    color: #999;
+    letter-spacing: -1px;
+    text-decoration: underline;
+    vertical-align: -2px;
+}   
+    
+    
+    
+    
+    
+    
+    

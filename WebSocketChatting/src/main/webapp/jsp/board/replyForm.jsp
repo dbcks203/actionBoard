@@ -47,7 +47,7 @@
 		</table>
 		<br/>
 		<input type="submit" id="write" name="write" value="답글등록"  > 
-		<input type="button" name="cancle" value="취소" onClick="history.back()">
+		<input type="button" name="cancle" value="취소" onClick="location.href= 'articlelistaccess.zan'">
 	</form>
 
 

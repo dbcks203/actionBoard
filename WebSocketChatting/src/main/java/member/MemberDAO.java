@@ -34,6 +34,35 @@ public class MemberDAO implements MemberDAOInterface{
 		return instance;
 	}
 	
+	public int totalPageNo(String text, int pageSize) {
+		int totalPageSize = 0; 
+		int rowSize = pageSize; 
+		if(text==null)
+			text="";
+		try {
+			conn = dataFactory.getConnection();
+			String query = "select ceil(COUNT(*) / ? ) from member where userid like concat('%', ?, '%') or name like concat('%', ?, '%')or address like concat('%', ?, '%') ";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rowSize);
+			pstmt.setString(2, text);
+			pstmt.setString(3, text);
+			pstmt.setString(4, text);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				totalPageSize = rs.getInt(1);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return totalPageSize; 
+
+	}
+	
 	public List<MemberBean> listMembers(String text, int pageNo,int pageSize) {
 		List<MemberBean> list = new ArrayList<>();
 		try {
@@ -41,7 +70,7 @@ public class MemberDAO implements MemberDAOInterface{
 			final int rowSize= pageSize;
 			text = text == null ? "" : text;
 			conn = dataFactory.getConnection();
-			String query = "select * from member where useridlike concat('%', ?, '%') or name like concat('%', ?, '%')or address like concat('%', ?, '%') ORDER BY `createdate` limit ?, ?";
+			String query = "select * from member where userid like concat('%', ?, '%') or `name` like concat('%', ?, '%')or `address` like concat('%', ?, '%') ORDER BY `createdate` limit ?, ?";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, text);
@@ -215,6 +244,43 @@ public class MemberDAO implements MemberDAOInterface{
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public int deleteMember(String uid) {
+		int count = 0;
+		try {
+			conn = dataFactory.getConnection();
+			String query = "delete from member where userid = ?";
+			System.out.println("prepareStatememt: " + query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, uid);
+
+			count = pstmt.executeUpdate();
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return count;
+	}
+
+	public int updateUseYn(String uid, String useYn) {
+		int count = 0;
+		try {
+			conn = dataFactory.getConnection();
+			String query = "update member set available = ? where userid = ?";
+			System.out.println("prepareStatememt: " + query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, useYn);
+			pstmt.setString(2, uid);
+
+			count = pstmt.executeUpdate();
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return count;
 	}
 	
 	public void close() throws Exception {

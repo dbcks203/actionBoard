@@ -41,6 +41,8 @@
 			articlelistaccess.zan:command.BoardCommand:articleListAccess
 			memberlist.zan:command.MemberCommand:memberList
 			memberlistaccess.zan:command.MemberCommand:memberListAccess
+			admindelete.zan:command.MemberCommand:adminDelete
+			adminuseyn.zan:command.MemberCommand:adminUseYn
   		</param-value>
   	</init-param>
   </servlet>

@@ -1,6 +1,8 @@
 package command;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -160,23 +162,73 @@ public class MemberCommand{
 		String pageNoStr = request.getParameter("pageNo");
 		String listSizeStr = request.getParameter("listSize");
 		
-		BoardDAO boardDAO = new BoardDAO();
 		if ("".equals(pageNoStr) || null == pageNoStr) 
 			pageNoStr = "1";
 		
 		int pageNo = Integer.parseInt(pageNoStr);		
 		int pageSize = 10;
 		int listSize = Integer.parseInt(listSizeStr);
-		Paging page = new Paging(pageNo,pageSize,listSize,boardDAO.totalPageNo(text,listSize));
+		Paging page = new Paging(pageNo,pageSize,listSize,memberDAO.totalPageNo(text,listSize));
 		List<MemberBean> list = memberDAO.listMembers(text, pageNo, listSize);
 		
 		JSONObject jsonResult = new JSONObject();
 		jsonResult.put("status", true);
-		jsonResult.put("membersList", list);
+		jsonResult.put("memberList", list);
 		jsonResult.put("pageHtml",PagingService.retPageService(page));
 		jsonResult.put("url", "/WebSocketChatting/jsp/admin/adminMain.jsp");
 		return jsonResult;
 		
 		
+	}
+	
+	
+	public JSONObject adminDelete(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+		String jsonStr = in.readLine();
+		System.out.println("jsonStr = " + jsonStr);
+
+		JSONObject jsonMember = new JSONObject(jsonStr);
+		String uid = jsonMember.getString("uid");
+		MemberDAO memberDAO = new MemberDAO();
+		int count = memberDAO.deleteMember(uid);
+		memberDAO.close();
+		JSONObject jsonResult = new JSONObject();
+		
+		if (count != 0) {
+			jsonResult.put("status", true);
+			jsonResult.put("message", "회원을 삭제하였습니다.");
+		} else {
+			jsonResult.put("status", false);
+			jsonResult.put("message", "회원삭제가 실패되었습니다.");
+		}
+		return jsonResult;
+	}
+	
+	
+	public JSONObject adminUseYn(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+		String jsonStr = in.readLine();
+		System.out.println("jsonStr = " + jsonStr);
+
+		JSONObject jsonMember = new JSONObject(jsonStr);
+		String uid = jsonMember.getString("uid");
+		String useYn = jsonMember.getString("useYn");
+		MemberDAO memberDAO = new MemberDAO();
+		int count = memberDAO.updateUseYn(uid, "Y".equals(useYn) ? "N" : "Y");
+		memberDAO.close();
+		JSONObject jsonResult = new JSONObject();
+		
+		if (count != 0) {
+			jsonResult.put("status", true);
+			jsonResult.put("message", "회원의 상태를 변경하였습니다.");
+		} else {
+			jsonResult.put("status", false);
+			jsonResult.put("message", "회원상태 변경 실패되었습니다.");
+		}
+		return jsonResult;
 	}
 }

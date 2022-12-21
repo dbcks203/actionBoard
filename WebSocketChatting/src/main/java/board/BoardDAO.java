@@ -129,7 +129,7 @@ public class BoardDAO implements BoardDAOInterface {
 		try {
 			conn = dataFactory.getConnection();
 			text = text == null ? "" : text;
-			String query = "select * from tblboards where  like concat('%', ?, '%') or content like concat('%', ?, '%')or userid like concat('%', ?, '%') ORDER BY parentNo, `seq` limit ?, ?";
+			String query = "select * from tblboards where subject like concat('%', ?, '%') or content like concat('%', ?, '%')or userid like concat('%', ?, '%') ORDER BY parentNo, `seq` limit ?, ?";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, text);

@@ -9,8 +9,6 @@ public class PagingService {
 		int totalPageNo = page.getTotalPageNo();
 		int startPageNo = page.getStartPageNo();
 		int endPageNo = page.getEndPageNo();
-		int listSize = page.getListSize();
-		int pageSize = page.getPageSize();
 
 		String pageHtml = "";
 

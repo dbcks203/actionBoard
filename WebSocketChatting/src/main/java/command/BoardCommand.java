@@ -38,7 +38,7 @@ public class BoardCommand{
 			e.printStackTrace();
 		}
 		
-		return "articlelist.zan";
+		return "articlelistaccess.zan";
 	}
 	
 	
@@ -194,9 +194,11 @@ public class BoardCommand{
 		ServletFileUpload upload = new ServletFileUpload(factory);
 
 		Map<String, List<FileItem>> mapItems = upload.parseParameterMap(request);
-		String parentNo = mapItems.get("parentNo").get(0).getString();
-		String subject = mapItems.get("subject").get(0).getString();
-		String content = mapItems.get("content").get(0).getString();
+		
+		String parentNo = new String(mapItems.get("parentNo").get(0).getString().getBytes("ISO-8859-1"), "UTF-8");
+		String subject = new String(mapItems.get("subject").get(0).getString().getBytes("ISO-8859-1"), "UTF-8");
+		String content = new String(mapItems.get("content").get(0).getString().getBytes("ISO-8859-1"), "UTF-8");
+		
 		String tag = mapItems.get("tag").get(0).getString();
 		String userid = (String) session.getAttribute("id");
 		JSONObject jsonResult = new JSONObject();
@@ -204,10 +206,6 @@ public class BoardCommand{
 		try {
 			
 			boardDTO.setTag(tag);
-			System.out.println("pno:"+parentNo);
-			System.out.println("sub"+subject);
-			System.out.println("cot:"+content);
-			System.out.println("uid:"+userid);
 			int number = boardDAO.articleInsert(parentNo,subject,content,userid);
 			for (FileItem fileItem : mapItems.get("filename1")) {
 				if (fileItem.getSize() == 0) continue;

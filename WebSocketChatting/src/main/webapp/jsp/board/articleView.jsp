@@ -52,7 +52,7 @@
 			<c:if test="${boardDTO.seq == boardDTO.parentNo}">
 				<a href="<c:url value='/board/replyForm.zan?number=${boardDTO.seq}'/>">답글</a><br/>
 			</c:if>
-			<input type="button" name="cancle" value="돌아가기" onClick="history.back()">
+			<input type="button" name="cancle" value="돌아가기" onClick="location.href='articlelistaccess.zan'">
 
 		</div>
 	</section>

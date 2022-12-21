@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="5.0">
+  <display-name>pro</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description>mvcServlet</description>
+    <display-name>mvcServlet</display-name>
+    <servlet-name>mvcServlet</servlet-name>
+    <servlet-class>mvc.servlet.MVCServlet</servlet-class>
+    <init-param>
+      <param-name>actionNames</param-name>
+      <param-value>
+      		/main.do:					main.action.MainAction:main
+      		/member/loginForm.do:		member.action.MemberAction:loginForm
+      		/member/login.do:		    member.action.MemberAction:login
+      		/member/logout.do:		    member.action.MemberAction:logout
+      		/member/findUid.do:			member.action.MemberAction:findUid
+      		/member/findPwd.do:			member.action.MemberAction:findPwd
+      		/member/deleteForm.do:		member.action.MemberAction:deleteForm
+      		/member/delete.do:			member.action.MemberAction:delete
+      		/member/viewForm.do:		member.action.MemberAction:viewForm
+			/member/updateForm.do:		member.action.MemberAction:updateForm
+			/member/update.do:			member.action.MemberAction:update 
+			/member/registerForm.do:	member.action.MemberAction:registerForm
+			/member/register.do:		member.action.MemberAction:register
+			/board/list.do:				board.action.BoardAction:list
+			/board/view.do:				board.action.BoardAction:view
+			/board/writeForm.do:		board.action.BoardAction:writeForm
+			/board/write.do:			board.action.BoardAction:write
+			/board/replyForm.do:		board.action.BoardAction:replyForm
+			/board/reply.do:			board.action.BoardAction:reply
+  		</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mvcServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <listener>
+    <listener-class>listnerer.MVCContextListener</listener-class>
+  </listener>
+</web-app>
