@@ -231,4 +231,22 @@ public class MemberCommand{
 		}
 		return jsonResult;
 	}
+	
+	
+	public JSONObject suggest(HttpServletRequest request, HttpServletResponse response) {
+		String text = request.getParameter("text");
+		
+
+		
+		int pageNo = 1;		
+		int listSize = 5;
+		List<MemberBean> list = memberDAO.serchByTitle(text, pageNo, listSize);
+		
+		JSONObject jsonResult = new JSONObject();
+		
+		jsonResult.put("status", true);
+		jsonResult.put("suggestResult", list);
+		jsonResult.put("url", "/WebSocketChatting/jsp/admin/adminMain.jsp");
+		return jsonResult;
+	}
 }

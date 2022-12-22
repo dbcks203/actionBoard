@@ -22,10 +22,12 @@
 				<td>검색어</td>
 				<td><input type="text" placeholder="제목,내용,작성자를 입력" id="text"
 					name="text" value="${param.text}" maxlength="130"></td>
-				<td><input type="button" value="검색" onclick="jsSearch()">
+				<td><input type="button" value="검색" onclick="jsSearch()"></td>
+				<td><div id="suggestion_box"></div></td>
 			</tr>
 		</table>
 	</form>
+	
 	<select id="dataPerPage">
 		<option value="10">10개씩보기</option>
 		<option value="15">15개씩보기</option>
@@ -62,7 +64,24 @@
 	listSize = $("#dataPerPage").val();
 	loadList();
 	
-	
+	 $(function() {
+		 $("#text").keyup(function() {
+	            $.ajax({ 
+	                url: "suggestion.zan",
+	                data: { "text" : $(this).val() },
+	                dataType : "json",
+	                method: "GET",
+	                success : function(json) {
+	                	suggestHtml="";
+	                	json.suggestResult.forEach(member=> {
+            				suggestHtml += "<tr><td>" + member.id + "</td></tr>";
+            				}
+            			);
+	                	$("#suggestion_box").html(suggestHtml);
+	                }
+	            })       
+	        })
+	   });
 	
 	
 	$("#dataPerPage").change(function() {
@@ -82,7 +101,7 @@
 		loadList();
 	}
 
-	function displayData() {	
+	function displayData(memberList) {	
 		let chartHtml = "";
 		memberList.forEach(function(member) {
 			chartHtml += "<tr>";
@@ -100,7 +119,12 @@
 			chartHtml += "<td><a href='#' class='useYns' ><span id="+member.id+" data-uid="+member.id+" data-useyn="+member.available+">"+dump+"</span></a></td>";
 			chartHtml += "</tr>";
 		});
-		$("#dataTableBody").html(chartHtml);
+		return chartHtml;
+	}
+	
+	
+	
+	function setEvent() {
 		$(".deleteUids").on("click", e => {
 	    	let aLink = e.target;
 	    	
@@ -152,12 +176,9 @@
 				,success : (jsonResult) => {
 					alert(jsonResult.message);
 		    		if (jsonResult.status == true) {
-		    			//location.reload();
-		    			//searchForm.submit();
 		    			let useYnSpan = document.querySelector("#useYn_" + uid);
 		    			if (useYnSpan != null) {
-		    				useYnSpan.innerText = (useYn == 'Y' ? '미사용' : '사용');
-		    				//data-useyn 변수의 값을 변경한다 
+		    				useYnSpan.innerText = (useYn == 'Y' ? '미사용' : '사용'); 
 		    				aLink.setAttribute("data-useyn", useYn == 'Y' ? 'N' : 'Y');
 		    			}
 		    			loadList();
@@ -166,12 +187,6 @@
 	 		});
 		  });
 	}
-	
-	
-
-	
-	
-	
 	function loadList() {
 		$.ajax({
 			method : "GET",
@@ -183,11 +198,9 @@
 			},
 			dataType : "json",
 			success : function(json) {
-				console.log("currentPage : " + currentPageNo);
-				memberList = json.memberList;
-				console.log(json);
+				$("#dataTableBody").html(displayData(json.memberList));
 				$("#pagingul").html(json.pageHtml);
-				displayData();
+				setEvent();
 			}
 		});
 	}

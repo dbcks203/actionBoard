@@ -283,6 +283,42 @@ public class MemberDAO implements MemberDAOInterface{
 		return count;
 	}
 	
+	public List<MemberBean> serchByTitle(String text, int pageNo,int pageSize) {
+		List<MemberBean> list = new ArrayList<>();
+		try {
+			final int rowSize= pageSize;
+			text = text == null ? "" : text;
+			conn = dataFactory.getConnection();
+			String query = "select * from member where userid like concat('%', ?, '%') ORDER BY `createdate` limit ?, ?";
+			System.out.println("prepareStatememt: " + query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, text);
+			pstmt.setInt(2, (pageNo-1) * rowSize);
+			pstmt.setInt(3, rowSize);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				MemberBean member = new MemberBean(
+						rs.getString("userid"), 
+						rs.getString("pwd"), 
+						rs.getString("name"), 
+						rs.getString("sex"),
+						rs.getString("email"), 
+						rs.getString("address"), 
+						rs.getString("phone"),
+						rs.getString("createDate"),
+						rs.getString("available"));
+				list.add(member);
+			}
+			rs.close();
+			pstmt.close();
+			close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	public void close() throws Exception {
 		if (conn != null) {
 			conn.close();
