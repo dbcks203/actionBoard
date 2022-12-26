@@ -235,12 +235,14 @@ public class MemberCommand{
 	
 	public JSONObject suggest(HttpServletRequest request, HttpServletResponse response) {
 		String text = request.getParameter("text");
-		
+		List<MemberBean> list = null;
 
 		
 		int pageNo = 1;		
 		int listSize = 5;
-		List<MemberBean> list = memberDAO.serchByTitle(text, pageNo, listSize);
+		if(!text.equals("")) {
+			list = memberDAO.serchByTitle(text, pageNo, listSize);
+		}
 		
 		JSONObject jsonResult = new JSONObject();
 		

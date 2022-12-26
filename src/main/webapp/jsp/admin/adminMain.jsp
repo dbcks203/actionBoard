@@ -17,15 +17,10 @@
 	<h3>관 리 자</h3>
 
 	<form name="searchForm">
-		<table>
-			<tr>
-				<td>검색어</td>
-				<td><input type="text" placeholder="제목,내용,작성자를 입력" id="text"
-					name="text" value="${param.text}" maxlength="130"></td>
-				<td><input type="button" value="검색" onclick="jsSearch()"></td>
-				<td><div id="suggestion_box"></div></td>
-			</tr>
-		</table>
+	검색어
+	<input type="text" placeholder="제목,내용,작성자를 입력" id="text" name="text" value="${param.text}" maxlength="130" autocomplete="off">
+	<input type="button" value="검색" onclick="jsSearch()">
+	<div id="suggestion_box"></div>
 	</form>
 	
 	<select id="dataPerPage">
@@ -65,6 +60,7 @@
 	loadList();
 	
 	 $(function() {
+		 
 		 $("#text").keyup(function() {
 	            $.ajax({ 
 	                url: "suggestion.zan",
@@ -81,6 +77,7 @@
 	                }
 	            })       
 	        })
+	        
 	   });
 	
 	

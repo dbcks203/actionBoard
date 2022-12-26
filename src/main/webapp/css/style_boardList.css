@@ -314,3 +314,24 @@ ul li.on {
 ul li.on a {
     color: #fff;
 }
+
+
+#recommend {
+	margin-top: 1px;
+	position: absolute;
+	background: white;
+	padding: 0 10px;
+}
+
+.item {
+	height: 1.8em;
+	width: 220px;
+	outline: none;
+}
+
+.item:hover {
+	color: #9baec8;
+}
+.text {
+	font-weight: bold;
+}
